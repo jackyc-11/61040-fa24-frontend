@@ -9,12 +9,13 @@ export interface PostOptions {
 
 export interface PostDoc extends BaseDoc {
   author: ObjectId;
+  recipient: ObjectId;
   content: string;
   options?: PostOptions;
 }
 
 /**
- * concept: Posting [Author]
+ * concept: Posting [User]
  */
 export default class PostingConcept {
   public readonly posts: DocCollection<PostDoc>;
@@ -26,14 +27,22 @@ export default class PostingConcept {
     this.posts = new DocCollection<PostDoc>(collectionName);
   }
 
-  async create(author: ObjectId, content: string, options?: PostOptions) {
-    const _id = await this.posts.createOne({ author, content, options });
+  async create(author: ObjectId, recipient: ObjectId, content: string, options?: PostOptions) {
+    const _id = await this.posts.createOne({ author, recipient, content, options });
     return { msg: "Post successfully created!", post: await this.posts.readOne({ _id }) };
   }
 
-  async getPosts() {
-    // Returns all posts! You might want to page for better client performance
-    return await this.posts.readMany({}, { sort: { _id: -1 } });
+  // Get posts between the current user and the recipient
+  async getPosts(user: ObjectId, recipient: ObjectId) {
+    return await this.posts.readMany(
+      {
+        $or: [
+          { author: user, recipient: recipient },
+          { author: recipient, recipient: user },
+        ],
+      },
+      { sort: { dateCreated: 1 } },
+    );
   }
 
   async getByAuthor(author: ObjectId) {

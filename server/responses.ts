@@ -1,6 +1,7 @@
 import { Authing } from "./app";
 import { AlreadyFriendsError, FriendNotFoundError, FriendRequestAlreadyExistsError, FriendRequestDoc, FriendRequestNotFoundError } from "./concepts/friending";
 import { PostAuthorNotMatchError, PostDoc } from "./concepts/posting";
+import { MessageDoc } from "./concepts/texting";
 import { Router } from "./framework/router";
 
 /**
@@ -15,16 +16,19 @@ export default class Responses {
     if (!post) {
       return post;
     }
-    const author = await Authing.getUserById(post.author);
-    return { ...post, author: author.username };
+    const [author, recipient] = await Promise.all([Authing.getUserById(post.author), Authing.getUserById(post.recipient)]);
+    return { ...post, author: author.username, recipient: recipient.username };
   }
 
   /**
    * Same as {@link post} but for an array of PostDoc for improved performance.
    */
   static async posts(posts: PostDoc[]) {
-    const authors = await Authing.idsToUsernames(posts.map((post) => post.author));
-    return posts.map((post, i) => ({ ...post, author: authors[i] }));
+    const authorIds = posts.map((post) => post.author);
+    const recipientIds = posts.map((post) => post.recipient);
+
+    const [authors, recipients] = await Promise.all([Authing.idsToUsernames(authorIds), Authing.idsToUsernames(recipientIds)]);
+    return posts.map((post, i) => ({ ...post, author: authors[i], recipient: recipients[i] }));
   }
 
   /**
@@ -36,6 +40,30 @@ export default class Responses {
     const to = requests.map((request) => request.to);
     const usernames = await Authing.idsToUsernames(from.concat(to));
     return requests.map((request, i) => ({ ...request, from: usernames[i], to: usernames[i + requests.length] }));
+  }
+
+  /**
+   * Convert a single MessageDoc into more readable format for the frontend
+   * by converting sender and recipient ids into usernames.
+   */
+  static async message(message: MessageDoc | null) {
+    if (!message) {
+      return message;
+    }
+    const [sender, recipient] = await Promise.all([Authing.getUserById(message.sender), Authing.getUserById(message.recipient)]);
+    return {
+      ...message,
+      sender: sender.username,
+      recipient: recipient.username,
+    };
+  }
+
+  /**
+   * Convert an array of MessageDoc into more readable format for the frontend
+   * by converting sender and recipient ids into usernames.
+   */
+  static async messages(messages: MessageDoc[]) {
+    return Promise.all(messages.map((message) => this.message(message)));
   }
 }
 
