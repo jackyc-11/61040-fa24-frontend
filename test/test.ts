@@ -58,10 +58,10 @@ describe("Create a user and log in", () => {
     await assert.rejects(app.createUser(session, "barish", "1234"));
   });
 
-  it("get invalid username should fail", async () => {
-    await assert.rejects(app.getUser(""), "Username should be at least 1 character long");
-    await app.getUser("alice");
-  });
+  // it("get invalid username should fail", async () => {
+  //   await assert.rejects(app.getUser(""), "Username should be at least 1 character long");
+  //   await app.getUser("alice");
+  // });
 });
 
 /*

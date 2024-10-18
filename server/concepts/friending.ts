@@ -28,7 +28,7 @@ export default class FriendingConcept {
     this.requests = new DocCollection<FriendRequestDoc>(collectionName + "_requests");
   }
 
-  async getRequests(user: ObjectId) {
+  async getPendingRequests(user: ObjectId) {
     return await this.requests.readMany({
       $or: [{ from: user }, { to: user }],
     });

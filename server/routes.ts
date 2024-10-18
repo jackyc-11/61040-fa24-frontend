@@ -7,7 +7,7 @@ import { PostOptions } from "./concepts/posting";
 import { SessionDoc } from "./concepts/sessioning";
 import Responses from "./responses";
 
-import { z } from "zod";
+// import { z } from "zod";
 
 /**
  * Web server routes for the app. Implements synchronizations between concepts.
@@ -22,15 +22,19 @@ class Routes {
   }
 
   @Router.get("/users")
-  async getUsers() {
-    return await Authing.getUsers();
+  async getUsers(session: SessionDoc) {
+    const currentUser = Sessioning.getUser(session);
+    const allUsers = await Authing.getUsers();
+    const friendIds = (await Friending.getFriends(currentUser)).map((id) => id.toString());
+    const nonFriends = allUsers.filter((user) => user._id.toString() !== currentUser.toString() && !friendIds.includes(user._id.toString()));
+    return nonFriends;
   }
 
-  @Router.get("/users/:username")
-  @Router.validate(z.object({ username: z.string().min(1) }))
-  async getUser(username: string) {
-    return await Authing.getUserByUsername(username);
-  }
+  // @Router.get("/users/:username")
+  // @Router.validate(z.object({ username: z.string().min(1) }))
+  // async getUser(username: string) {
+  //   return await Authing.getUserByUsername(username);
+  // }
 
   @Router.post("/users")
   async createUser(session: SessionDoc, username: string, password: string) {
@@ -142,7 +146,7 @@ class Routes {
   @Router.get("/friend/requests")
   async getRequests(session: SessionDoc) {
     const user = Sessioning.getUser(session);
-    return await Responses.friendRequests(await Friending.getRequests(user));
+    return await Responses.friendRequests(await Friending.getPendingRequests(user));
   }
 
   @Router.post("/friend/requests/:to")

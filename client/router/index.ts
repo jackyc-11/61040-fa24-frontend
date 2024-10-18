@@ -1,9 +1,13 @@
 import { storeToRefs } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 
+import AddFriends from "@/components/Friends/AddFriends.vue";
+import FriendRequests from "@/components/Friends/FriendRequests.vue";
+import FriendsList from "@/components/Friends/FriendsList.vue";
 import { useUserStore } from "@/stores/user";
-import HomeView from "../views/HomeView.vue";
+import FriendsView from "@/views/FriendsView.vue";
 import LoginView from "../views/LoginView.vue";
+import MessagesView from "../views/MessagesView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 import SettingView from "../views/SettingView.vue";
 
@@ -11,9 +15,10 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: "/",
-      name: "Home",
-      component: HomeView,
+      path: "/messages",
+      name: "Messages",
+      component: MessagesView,
+      meta: { requiresAuth: true },
     },
     {
       path: "/setting",
@@ -27,16 +32,41 @@ const router = createRouter({
       component: LoginView,
       meta: { requiresAuth: false },
       beforeEnter: (to, from) => {
-        const { isLoggedIn } = storeToRefs(useUserStore());
+        const userStore = useUserStore();
+        const { isLoggedIn } = storeToRefs(userStore);
         if (isLoggedIn.value) {
-          return { name: "Settings" };
+          return { name: "Messages" };
         }
       },
+    },
+    {
+      path: "/friends",
+      name: "Friends",
+      component: FriendsView,
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: "list",
+          component: FriendsList,
+        },
+        {
+          path: "add",
+          component: AddFriends,
+        },
+        {
+          path: "requests",
+          component: FriendRequests,
+        },
+      ],
     },
     {
       path: "/:catchAll(.*)",
       name: "not-found",
       component: NotFoundView,
+    },
+    {
+      path: "/",
+      redirect: "/messages",
     },
   ],
 });

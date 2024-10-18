@@ -1,0 +1,137 @@
+<script setup lang="ts">
+import { fetchy } from "@/utils/fetchy";
+import { onMounted, ref } from "vue";
+
+interface FriendRequest {
+  id: string;
+  from: string;
+  to: string;
+  status: string;
+}
+
+const requests = ref<FriendRequest[]>([]);
+const currentUser = ref<string>("");
+
+async function fetchCurrentUser() {
+  try {
+    const session = await fetchy("/api/session", "GET");
+    currentUser.value = session.username;
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+  }
+}
+
+async function fetchRequests() {
+  try {
+    const result = await fetchy("/api/friend/requests", "GET");
+
+    requests.value = result.filter((request: FriendRequest) => request.status === "pending" && request.to === currentUser.value);
+  } catch (error) {
+    console.error("Error fetching friend requests:", error);
+  }
+}
+
+async function acceptRequest(fromUsername: string) {
+  try {
+    await fetchy(`/api/friend/accept/${fromUsername}`, "PUT");
+    alert(`${fromUsername} accepted as a friend.`);
+    requests.value = requests.value.filter((request) => request.from !== fromUsername);
+  } catch (error) {
+    console.error("Error accepting friend request:", error);
+  }
+}
+
+async function rejectRequest(fromUsername: string) {
+  try {
+    await fetchy(`/api/friend/reject/${fromUsername}`, "PUT");
+    alert(`${fromUsername}'s request rejected.`);
+    requests.value = requests.value.filter((request) => request.from !== fromUsername);
+  } catch (error) {
+    console.error("Error rejecting friend request:", error);
+  }
+}
+
+onMounted(async () => {
+  await fetchCurrentUser();
+  await fetchRequests();
+});
+</script>
+
+<template>
+  <div class="friend-requests-container">
+    <h1>Friend Requests</h1>
+
+    <ul class="requests-list">
+      <li v-for="request in requests" :key="request.id" class="request-item">
+        <div class="request-avatar">
+          <img src="@/assets/images/profile.png" alt="Avatar" />
+        </div>
+        <div class="request-info">
+          <p>{{ request.from }}</p>
+        </div>
+        <div class="request-actions">
+          <button class="accept-btn" @click="acceptRequest(request.from)">Accept</button>
+          <button class="delete-btn" @click="rejectRequest(request.from)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<style scoped>
+.friend-requests-container {
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.requests-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.request-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.request-avatar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.request-info {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.request-info p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.request-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.accept-btn,
+.delete-btn {
+  background-color: #ccc;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.accept-btn:hover,
+.delete-btn:hover {
+  background-color: #bbb;
+}
+</style>

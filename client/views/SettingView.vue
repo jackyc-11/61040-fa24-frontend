@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SideNav from "@/components/MainPage/SideNav.vue";
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { storeToRefs } from "pinia";
@@ -9,20 +10,34 @@ const { logoutUser, deleteUser } = useUserStore();
 
 async function logout() {
   await logoutUser();
-  void router.push({ name: "Home" });
+  void router.push({ name: "Login" });
 }
 
 async function delete_() {
   await deleteUser();
-  void router.push({ name: "Home" });
+  void router.push({ name: "Login" });
 }
 </script>
 
 <template>
-  <main class="column">
-    <h1>Settings for {{ currentUsername }}</h1>
-    <button class="pure-button pure-button-primary" @click="logout">Logout</button>
-    <button class="button-error pure-button" @click="delete_">Delete User</button>
-    <UpdateUserForm />
-  </main>
+  <div class="settings-page">
+    <SideNav />
+
+    <main class="settings-content column">
+      <h1>Settings for {{ currentUsername }}</h1>
+      <button class="pure-button pure-button-primary" @click="logout">Logout</button>
+      <button class="button-error pure-button" @click="delete_">Delete User</button>
+      <UpdateUserForm />
+    </main>
+  </div>
 </template>
+
+<style scoped>
+.settings-page {
+  display: flex;
+}
+
+.settings-content {
+  flex-grow: 1;
+}
+</style>
