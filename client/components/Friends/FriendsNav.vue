@@ -7,8 +7,7 @@ import { RouterLink } from "vue-router";
     <!-- Friends List -->
     <RouterLink to="/friends/list" class="nav-item">
       <div class="icon-text">
-        <span class="icon">👥</span>
-        <!-- laceholder for Friends List icon to be replaced -->
+        <span class="icon"><img src="@/assets/images/friendslist.png" alt="Friends List" /></span>
         <span class="text">Friends List</span>
       </div>
       <span class="arrow">➤</span>
@@ -17,8 +16,7 @@ import { RouterLink } from "vue-router";
     <!-- Add Friends -->
     <RouterLink to="/friends/add" class="nav-item">
       <div class="icon-text">
-        <span class="icon">➕</span>
-        <!-- placeholder for Add Friends icon -->
+        <span class="icon"><img src="@/assets/images/addfriends.png" alt="Add Friends" /></span>
         <span class="text">Add Friends</span>
       </div>
       <span class="arrow">➤</span>
@@ -27,8 +25,7 @@ import { RouterLink } from "vue-router";
     <!-- Friend Requests -->
     <RouterLink to="/friends/requests" class="nav-item">
       <div class="icon-text">
-        <span class="icon">⏳</span>
-        <!-- placeholder for Friend Requests icon -->
+        <span class="icon"><img src="@/assets/images/friendrequests.png" alt="Friend Requests" /></span>
         <span class="text">Friend Requests</span>
       </div>
       <span class="arrow">➤</span>

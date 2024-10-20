@@ -9,7 +9,6 @@ import SideNav from "@/components/MainPage/SideNav.vue";
     <FriendsNav />
     <div class="friends-content">
       <RouterView />
-      <!-- dynamically render FriendsList, AddFriends, or FriendRequests based on route -->
     </div>
   </div>
 </template>
@@ -17,6 +16,7 @@ import SideNav from "@/components/MainPage/SideNav.vue";
 <style scoped>
 .friends-view {
   display: flex;
+  height: 100vh;
 }
 
 .friends-content {

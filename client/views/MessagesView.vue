@@ -33,14 +33,12 @@ function sendMessage(message: string) {
   <div class="messages-page">
     <SideNav />
 
-    <div class="chat-area">
-      <ChatSidebar @select-chat="selectChat"></ChatSidebar>
+    <ChatSidebar @select-chat="selectChat" />
 
-      <div class="chat-window">
-        <ChatHeader v-if="selectedUser" :user="selectedUser"></ChatHeader>
-        <ChatMessages :messages="currentMessages"></ChatMessages>
-        <ChatInput @send-message="sendMessage"></ChatInput>
-      </div>
+    <div class="chat-window">
+      <ChatHeader v-if="selectedUser" :user="selectedUser" />
+      <ChatMessages :messages="currentMessages" />
+      <ChatInput @send-message="sendMessage" />
     </div>
   </div>
 </template>
@@ -51,9 +49,12 @@ function sendMessage(message: string) {
   height: 100vh;
 }
 
-.chat-area {
-  display: flex;
-  flex-grow: 1;
+.chat-sidebar {
+  margin: 1rem;
+  width: 30%;
+  height: 90%;
+  border-radius: 20px;
+  border: 1px solid black; /* Add a dividing border */
 }
 
 .chat-window {

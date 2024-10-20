@@ -1,28 +1,21 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-
-const icons = {
-  messages: "📄", // Placeholder for Messages icon
-  friends: "👥", // Placeholder for Friends icon
-  profile: "⚙️", // Placeholder for Profile (Settings) icon
-};
 </script>
 
 <template>
   <nav class="side-nav">
-    <!-- Messages icon (use named route) -->
     <RouterLink :to="{ name: 'Messages' }" class="nav-icon" title="Messages">
-      <span>{{ icons.messages }}</span>
+      <img src="@/assets/images/messages.png" alt="Messages Icon" />
     </RouterLink>
 
-    <!-- Friends icon (use named route) -->
     <RouterLink :to="{ name: 'Friends' }" class="nav-icon" title="Friends">
-      <span>{{ icons.friends }}</span>
+      <img src="@/assets/images/friends.png" alt="Friends Icon" />
     </RouterLink>
 
-    <!-- Profile (Settings) icon (use named route) -->
+    <div class="spacer"></div>
+
     <RouterLink :to="{ name: 'Settings' }" class="nav-icon" title="Profile">
-      <span>{{ icons.profile }}</span>
+      <img src="@/assets/images/settings.png" alt="Settings Icon" />
     </RouterLink>
   </nav>
 </template>
@@ -31,24 +24,19 @@ const icons = {
 .side-nav {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
   padding: 1rem;
-  width: 60px;
-  background-color: #f4f4f4;
-  height: 100vh;
-  border-right: 1px solid #ccc;
 }
 
 .nav-icon {
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  color: black;
-  text-decoration: none;
+  margin-bottom: 1rem;
 }
 
 .nav-icon:hover {
   color: #007bff;
   cursor: pointer;
+}
+
+.spacer {
+  flex-grow: 1;
 }
 </style>

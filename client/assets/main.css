@@ -5,6 +5,10 @@
   --base-bg: #f1f3f5;
 }
 
+body {
+  background-color: #eaeaea; /* Apply the light grey background color */
+}
+
 button.btn-small {
   font-size: 80%;
 }

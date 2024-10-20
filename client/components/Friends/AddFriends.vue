@@ -42,10 +42,6 @@ async function cancelFriendRequest(username: string) {
   }
 }
 
-function removeFromSuggestion(username: string) {
-  removedUsers.value.add(username);
-}
-
 onMounted(async () => {
   await fetchUsers();
 });
@@ -69,7 +65,6 @@ onMounted(async () => {
         <div class="user-actions">
           <button v-if="requestedUsers.has(user.username)" @click="cancelFriendRequest(user.username)">Cancel Request</button>
           <button v-else @click="addFriend(user.username)">Add Friend</button>
-          <button v-if="!requestedUsers.has(user.username)" @click="removeFromSuggestion(user.username)">Remove</button>
         </div>
       </li>
     </ul>
