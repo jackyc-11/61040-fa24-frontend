@@ -5,6 +5,8 @@ const props = defineProps<{
   user: { username: string };
 }>();
 
+console.log("ChatHeader User:", props.user);
+
 // add the video call api stuff here
 function startVideoCall() {
   console.log("Starting video call with", props.user.username);
@@ -17,7 +19,6 @@ function startVideoCall() {
       <span>{{ user.username }}</span>
     </div>
     <div class="actions">
-      <!-- placeholder icons to be replaced later -->
       <button @click="startVideoCall">📹</button>
       <button>⋮</button>
     </div>

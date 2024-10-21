@@ -74,6 +74,7 @@ onMounted(async () => {
 <style scoped>
 .add-friends-container {
   padding: 1rem;
+  overflow-y: auto;
 }
 
 h1 {
@@ -87,7 +88,7 @@ h1 {
 
 .search-bar input {
   padding: 0.5rem;
-  width: 100%;
+  width: 90%;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -126,6 +127,7 @@ h1 {
   border: none;
   padding: 0.5rem;
   cursor: pointer;
+  border-radius: 5px;
   margin-left: 0.5rem;
 }
 

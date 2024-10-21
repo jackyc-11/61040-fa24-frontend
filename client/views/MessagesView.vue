@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ChatHeader from "@/components/Chat/ChatHeader.vue";
-import ChatInput from "@/components/Chat/ChatInput.vue";
 import ChatMessages from "@/components/Chat/ChatMessages.vue";
 import ChatSidebar from "@/components/Chat/ChatSidebar.vue";
 import SideNav from "@/components/MainPage/SideNav.vue";
@@ -8,7 +7,7 @@ import { ref } from "vue";
 
 interface UserDoc {
   username: string;
-  password: string;
+  // password: string;
 }
 
 interface Message {
@@ -21,6 +20,7 @@ const currentMessages = ref<Message[]>([]);
 
 function selectChat(user: UserDoc) {
   selectedUser.value = user;
+  console.log("Selected User:", selectedUser.value);
   currentMessages.value = [];
 }
 
@@ -35,10 +35,12 @@ function sendMessage(message: string) {
 
     <ChatSidebar @select-chat="selectChat" />
 
-    <div class="chat-window">
-      <ChatHeader v-if="selectedUser" :user="selectedUser" />
-      <ChatMessages :messages="currentMessages" />
-      <ChatInput @send-message="sendMessage" />
+    <div class="chat-window" v-if="selectedUser">
+      <ChatHeader :user="selectedUser" />
+      <ChatMessages :messages="currentMessages" @send-message="sendMessage" />
+    </div>
+    <div v-else class="no-chat-selected">
+      <p>Select a user to start chatting</p>
     </div>
   </div>
 </template>
@@ -52,14 +54,29 @@ function sendMessage(message: string) {
 .chat-sidebar {
   margin: 1rem;
   width: 30%;
-  height: 90%;
   border-radius: 20px;
-  border: 1px solid black; /* Add a dividing border */
+  border: 1px solid black;
 }
 
 .chat-window {
-  flex-grow: 1;
+  margin: 1rem;
+  width: 60%;
   display: flex;
   flex-direction: column;
+  border-radius: 20px;
+  border: 1px solid black;
+  overflow-y: auto;
+}
+
+.no-chat-selected {
+  margin: 1rem;
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  border: 1px solid black;
+  font-size: 1.2rem;
+  color: #888;
 }
 </style>

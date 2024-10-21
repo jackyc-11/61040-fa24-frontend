@@ -4,7 +4,7 @@ import SideNav from "@/components/MainPage/SideNav.vue";
 </script>
 
 <template>
-  <div class="friends-view">
+  <div class="friends-page">
     <SideNav />
     <FriendsNav />
     <div class="friends-content">
@@ -14,12 +14,24 @@ import SideNav from "@/components/MainPage/SideNav.vue";
 </template>
 
 <style scoped>
-.friends-view {
+.friends-page {
   display: flex;
   height: 100vh;
 }
 
+.friends-nav {
+  margin: 1rem;
+  width: 30%;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
 .friends-content {
-  flex-grow: 1;
+  margin: 1rem;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 1px solid black;
 }
 </style>

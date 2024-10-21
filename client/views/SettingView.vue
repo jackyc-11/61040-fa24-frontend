@@ -35,6 +35,7 @@ async function delete_() {
 <style scoped>
 .settings-page {
   display: flex;
+  height: 100vh;
 }
 
 .settings-content {

@@ -34,7 +34,6 @@ async function fetchRequests() {
 async function acceptRequest(fromUsername: string) {
   try {
     await fetchy(`/api/friend/accept/${fromUsername}`, "PUT");
-    alert(`${fromUsername} accepted as a friend.`);
     requests.value = requests.value.filter((request) => request.from !== fromUsername);
   } catch (error) {
     console.error("Error accepting friend request:", error);
@@ -44,7 +43,6 @@ async function acceptRequest(fromUsername: string) {
 async function rejectRequest(fromUsername: string) {
   try {
     await fetchy(`/api/friend/reject/${fromUsername}`, "PUT");
-    alert(`${fromUsername}'s request rejected.`);
     requests.value = requests.value.filter((request) => request.from !== fromUsername);
   } catch (error) {
     console.error("Error rejecting friend request:", error);
@@ -81,6 +79,7 @@ onMounted(async () => {
 <style scoped>
 .friend-requests-container {
   padding: 1rem;
+  overflow-y: auto;
 }
 
 h1 {

@@ -13,6 +13,15 @@ async function fetchFriends() {
   }
 }
 
+async function removeFriend(friend: string) {
+  try {
+    await fetchy(`/api/friends/${friend}`, "DELETE");
+    friends.value = friends.value.filter((f) => f !== friend);
+  } catch (error) {
+    console.error("Error removing friend:", error);
+  }
+}
+
 onMounted(async () => {
   await fetchFriends();
 });
@@ -29,6 +38,9 @@ onMounted(async () => {
         <div class="friend-info">
           <p>{{ friend }}</p>
         </div>
+        <div class="friend-actions">
+          <button @click="removeFriend(friend)">Remove</button>
+        </div>
       </li>
     </ul>
   </div>
@@ -37,6 +49,7 @@ onMounted(async () => {
 <style scoped>
 .friends-container {
   padding: 1rem;
+  overflow-y: auto;
 }
 
 h1 {
@@ -71,5 +84,17 @@ h1 {
 .friend-info p {
   margin: 0;
   font-size: 1rem;
+}
+
+.friend-actions button {
+  background-color: #ccc;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.friend-actions button:hover {
+  background-color: #ff1a1a;
 }
 </style>
