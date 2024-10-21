@@ -33,7 +33,7 @@ function messageClass(message: Message) {
 
     <div class="chat-input">
       <input v-model="message" type="text" placeholder="Type a message..." @keyup.enter="sendMessage" />
-      <button @click="sendMessage">➤</button>
+      <button @click="sendMessage"><img src="@/assets/images/send.png" alt="Send" /></button>
     </div>
   </div>
 </template>
@@ -66,7 +66,6 @@ function messageClass(message: Message) {
 .chat-input {
   display: flex;
   padding: 10px;
-  border-top: 1px solid #ccc;
 }
 
 input {
@@ -79,12 +78,8 @@ input {
 }
 
 button {
-  background-color: #007bff;
-  color: white;
   border: none;
-  padding: 10px 15px;
-  font-size: 1.2rem;
-  border-radius: 50%;
+  background: none;
   cursor: pointer;
 }
 </style>

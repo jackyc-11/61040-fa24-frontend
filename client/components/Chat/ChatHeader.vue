@@ -5,8 +5,6 @@ const props = defineProps<{
   user: { username: string };
 }>();
 
-console.log("ChatHeader User:", props.user);
-
 // add the video call api stuff here
 function startVideoCall() {
   console.log("Starting video call with", props.user.username);
@@ -15,12 +13,14 @@ function startVideoCall() {
 
 <template>
   <div class="chat-header">
-    <div class="user-info">
-      <span>{{ user.username }}</span>
-    </div>
     <div class="actions">
-      <button @click="startVideoCall">📹</button>
-      <button>⋮</button>
+      <span @click="startVideoCall"> Video Call 📹 </span>
+      |
+      <span> Mood Map 😊 </span>
+      |
+      <span> Post-It Wall 📝 </span>
+      |
+      <span> Weathering With You 📝 </span>
     </div>
   </div>
 </template>
@@ -28,20 +28,28 @@ function startVideoCall() {
 <style scoped>
 .chat-header {
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
+  justify-content: center;
+  align-items: center;
   border-bottom: 1px solid #ccc;
+  font-weight: bold;
 }
 
-.user-info {
+.actions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.actions span {
+  cursor: pointer;
   display: flex;
   align-items: center;
+  border-radius: 20px;
+  padding: 1rem;
 }
 
-.actions button {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
+.actions span:hover {
+  background-color: #ccc;
 }
 </style>

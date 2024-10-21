@@ -20,7 +20,6 @@ const currentMessages = ref<Message[]>([]);
 
 function selectChat(user: UserDoc) {
   selectedUser.value = user;
-  console.log("Selected User:", selectedUser.value);
   currentMessages.value = [];
 }
 
