@@ -37,10 +37,7 @@ import { RouterLink } from "vue-router";
 .friends-nav {
   display: flex;
   flex-direction: column;
-  width: 250px;
-  background-color: #f4f4f4;
-  padding: 1rem;
-  border-right: 1px solid #ccc;
+  background-color: var(--content-bg);
 }
 
 .nav-item {
@@ -48,10 +45,10 @@ import { RouterLink } from "vue-router";
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin: 1rem;
   text-decoration: none;
   color: black;
-  border-radius: 8px;
+  border-radius: 20px;
   background-color: #fff;
 }
 

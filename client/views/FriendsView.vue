@@ -33,5 +33,6 @@ import SideNav from "@/components/MainPage/SideNav.vue";
   flex-direction: column;
   border-radius: 20px;
   border: 1px solid black;
+  background-color: var(--content-bg);
 }
 </style>

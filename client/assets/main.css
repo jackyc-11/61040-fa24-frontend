@@ -2,11 +2,13 @@
 
 :root {
   --red: rgb(208, 67, 12);
-  --base-bg: #f1f3f5;
+  --base-bg: #97a08d;
+  --content-bg: #c6ccbe;
+  --select-bg: #bac5c9;
 }
 
 body {
-  background-color: #eaeaea;
+  background-color: var(--base-bg);
 }
 
 button.btn-small {

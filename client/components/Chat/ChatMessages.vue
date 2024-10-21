@@ -53,13 +53,15 @@ function messageClass(message: Message) {
 
 .my-message {
   text-align: right;
-  background-color: #d1f7d1;
-  padding: 5px;
+  background-color: #ddd;
+  border-radius: 20px;
+  padding: 0.5rem;
+  width: auto;
 }
 
 .their-message {
   text-align: left;
-  background-color: #f0f0f0;
+  background-color: #ddd;
   padding: 10px;
 }
 

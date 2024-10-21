@@ -45,18 +45,16 @@ onMounted(async () => {
 
 <style scoped>
 .chat-sidebar {
-  width: 280px;
-  border-right: 1px solid #ccc;
   display: flex;
   flex-direction: column;
-  background-color: #f8f9fa;
+  background-color: var(--content-bg);
 }
 
 .search-bar {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 20px;
-  width: 90%;
+  width: auto;
   margin: 1rem;
 }
 
@@ -71,12 +69,9 @@ onMounted(async () => {
   border-radius: 20px;
 }
 
-.friend-item:hover {
-  background-color: #e0e0e0;
-}
-
+.friend-item:hover,
 .selected {
-  background-color: #e0e0e0;
+  background-color: var(--select-bg);
 }
 
 .friend-avatar img {

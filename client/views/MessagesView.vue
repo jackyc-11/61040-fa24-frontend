@@ -57,24 +57,24 @@ function sendMessage(message: string) {
   border: 1px solid black;
 }
 
-.chat-window {
-  margin: 1rem;
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-  border-radius: 20px;
-  border: 1px solid black;
-  overflow-y: auto;
-}
-
+.chat-window,
 .no-chat-selected {
   margin: 1rem;
   width: 60%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 20px;
   border: 1px solid black;
+  background-color: var(--content-bg);
+}
+
+.chat-window {
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.no-chat-selected {
+  align-items: center;
+  justify-content: center;
   font-size: 1.2rem;
   color: #888;
 }

@@ -30,7 +30,7 @@ function startVideoCall() {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--base-bg);
   font-weight: bold;
 }
 
@@ -50,6 +50,6 @@ function startVideoCall() {
 }
 
 .actions span:hover {
-  background-color: #ccc;
+  background-color: var(--select-bg);
 }
 </style>

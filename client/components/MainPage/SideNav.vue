@@ -32,7 +32,6 @@ import { RouterLink } from "vue-router";
 }
 
 .nav-icon:hover {
-  color: #007bff;
   cursor: pointer;
 }
 
