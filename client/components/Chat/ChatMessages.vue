@@ -7,7 +7,10 @@ interface Message {
 }
 
 const emit = defineEmits(["send-message"]);
-const props = defineProps<{ messages: Message[] }>();
+const props = defineProps<{
+  messages: Message[];
+  currentUser: string;
+}>();
 
 const message = ref("");
 
@@ -19,21 +22,23 @@ function sendMessage() {
 }
 
 function messageClass(message: Message) {
-  return message.sender === "me" ? "my-message" : "their-message";
+  return message.sender === props.currentUser ? "my-message" : "their-message";
 }
 </script>
 
 <template>
   <div class="chat-box">
     <div class="chat-messages">
-      <div v-for="(message, index) in messages" :key="index" :class="messageClass(message)" class="message-item">
-        <p>{{ message.content }}</p>
+      <div v-for="(message, index) in messages" :key="index" :class="messageClass(message)">
+        {{ message.content }}
       </div>
     </div>
 
     <div class="chat-input">
       <input v-model="message" type="text" placeholder="Type a message..." @keyup.enter="sendMessage" />
-      <button @click="sendMessage"><img src="@/assets/images/send.png" alt="Send" /></button>
+      <button @click="sendMessage">
+        <img src="@/assets/images/send.png" alt="Send" />
+      </button>
     </div>
   </div>
 </template>
@@ -49,20 +54,28 @@ function messageClass(message: Message) {
   flex-grow: 1;
   padding: 1rem;
   overflow-y: auto;
+  width: auto;
+}
+
+.my-message,
+.their-message {
+  border-radius: 2rem;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  max-width: 60%;
+  word-wrap: break-word;
 }
 
 .my-message {
+  background-color: #d6dde3;
   text-align: right;
-  background-color: #ddd;
-  border-radius: 20px;
-  padding: 0.5rem;
-  width: auto;
+  margin-left: auto;
 }
 
 .their-message {
   text-align: left;
-  background-color: #ddd;
-  padding: 10px;
+  background-color: #fed1cf;
+  width: auto;
 }
 
 .chat-input {
@@ -76,7 +89,6 @@ input {
   border: 1px solid #ccc;
   border-radius: 20px;
   font-size: 1rem;
-  margin-right: 10px;
 }
 
 button {

@@ -2,24 +2,29 @@
 import { fetchy } from "@/utils/fetchy";
 import { computed, onMounted, ref } from "vue";
 
-const friends = ref<string[]>([]);
+interface UserDoc {
+  username: string;
+}
+
+const friends = ref<UserDoc[]>([]);
 const searchQuery = ref("");
-const selectedFriend = ref<string | null>(null);
+const selectedFriend = ref<UserDoc | null>(null);
 
 async function fetchFriends() {
   try {
     const result = await fetchy("/api/friends", "GET");
-    friends.value = result as string[];
+
+    friends.value = result.map((username: string) => ({ username }));
   } catch (error) {
     console.error("Error fetching friends:", error);
   }
 }
 
-const filteredFriends = computed(() => friends.value.filter((friend) => friend.toLowerCase().includes(searchQuery.value.toLowerCase())));
+const filteredFriends = computed(() => friends.value.filter((friend) => friend.username.toLowerCase().includes(searchQuery.value.toLowerCase())));
 
 const emit = defineEmits(["select-chat"]);
 
-function selectFriend(friend: string) {
+function selectFriend(friend: UserDoc) {
   selectedFriend.value = friend;
   emit("select-chat", friend);
 }
@@ -32,12 +37,12 @@ onMounted(async () => {
 <template>
   <div class="chat-sidebar">
     <input type="text" v-model="searchQuery" placeholder="Search Tether" class="search-bar" />
-    <div v-for="friend in filteredFriends" :key="friend" @click="selectFriend(friend)" :class="['friend-item', { selected: selectedFriend === friend }]">
+    <div v-for="friend in filteredFriends" :key="friend.username" @click="selectFriend(friend)" :class="['friend-item', { selected: selectedFriend && selectedFriend.username === friend.username }]">
       <div class="friend-avatar">
         <img src="@/assets/images/profile.png" alt="Avatar" />
       </div>
       <div class="friend-info">
-        <p>{{ friend }}</p>
+        <p>{{ friend.username }}</p>
       </div>
     </div>
   </div>
@@ -71,7 +76,7 @@ onMounted(async () => {
 
 .friend-item:hover,
 .selected {
-  background-color: var(--select-bg);
+  background-color: #bbb7e9;
 }
 
 .friend-avatar img {

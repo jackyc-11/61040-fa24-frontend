@@ -14,7 +14,7 @@ import { RouterLink } from "vue-router";
 
     <div class="spacer"></div>
 
-    <RouterLink :to="{ name: 'Settings' }" class="nav-icon" title="Profile">
+    <RouterLink :to="{ name: 'Settings' }" class="nav-icon" title="Settings">
       <img src="@/assets/images/setting-section.png" alt="Settings Icon" />
     </RouterLink>
   </nav>

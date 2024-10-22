@@ -50,6 +50,6 @@ function startVideoCall() {
 }
 
 .actions span:hover {
-  background-color: var(--select-bg);
+  background-color: #bbb7e9;
 }
 </style>

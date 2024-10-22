@@ -3,11 +3,12 @@ import ChatHeader from "@/components/Chat/ChatHeader.vue";
 import ChatMessages from "@/components/Chat/ChatMessages.vue";
 import ChatSidebar from "@/components/Chat/ChatSidebar.vue";
 import SideNav from "@/components/MainPage/SideNav.vue";
+import { useUserStore } from "@/stores/user";
+import { fetchy } from "@/utils/fetchy";
 import { ref } from "vue";
 
 interface UserDoc {
   username: string;
-  // password: string;
 }
 
 interface Message {
@@ -15,16 +16,42 @@ interface Message {
   sender: string;
 }
 
+const userStore = useUserStore();
 const selectedUser = ref<UserDoc | null>(null);
 const currentMessages = ref<Message[]>([]);
 
-function selectChat(user: UserDoc) {
+async function selectChat(user: UserDoc) {
   selectedUser.value = user;
   currentMessages.value = [];
+  try {
+    const response = await fetchy(`/api/messages/${user.username}`, "GET");
+    currentMessages.value = response.map((msg: any) => ({
+      content: msg.content,
+      sender: msg.sender,
+    }));
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    currentMessages.value = [];
+  }
 }
 
-function sendMessage(message: string) {
-  currentMessages.value.push({ content: message, sender: "me" });
+async function sendMessage(content: string) {
+  if (!selectedUser.value || !userStore.currentUsername) return;
+
+  const newMessage: Message = {
+    content,
+    sender: "me",
+  };
+
+  try {
+    const response = await fetchy(`/api/messages/${selectedUser.value.username}`, "POST", {
+      body: { content },
+    });
+    currentMessages.value.push(response.message || newMessage);
+  } catch (error) {
+    console.error("Error sending message:", error);
+    currentMessages.value.push(newMessage);
+  }
 }
 </script>
 
@@ -34,9 +61,11 @@ function sendMessage(message: string) {
 
     <ChatSidebar @select-chat="selectChat" />
 
-    <div class="chat-window" v-if="selectedUser">
+    <div class="chat-window" v-if="selectedUser && userStore.currentUsername">
       <ChatHeader :user="selectedUser" />
-      <ChatMessages :messages="currentMessages" @send-message="sendMessage" />
+      <div class="messages-container">
+        <ChatMessages :messages="currentMessages" :currentUser="userStore.currentUsername" @send-message="sendMessage" />
+      </div>
     </div>
     <div v-else class="no-chat-selected">
       <p>Select a user to start chatting</p>
@@ -67,9 +96,14 @@ function sendMessage(message: string) {
   background-color: var(--content-bg);
 }
 
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+}
+
 .chat-window {
   flex-direction: column;
-  overflow-y: auto;
 }
 
 .no-chat-selected {
