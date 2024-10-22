@@ -23,7 +23,6 @@ import SideNav from "@/components/MainPage/SideNav.vue";
   margin: 1rem;
   width: 30%;
   border-radius: 20px;
-  border: 1px solid black;
 }
 
 .friends-content {
@@ -32,7 +31,6 @@ import SideNav from "@/components/MainPage/SideNav.vue";
   display: flex;
   flex-direction: column;
   border-radius: 20px;
-  border: 1px solid black;
   background-color: var(--content-bg);
 }
 </style>

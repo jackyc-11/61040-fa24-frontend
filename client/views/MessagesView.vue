@@ -2,6 +2,7 @@
 import ChatHeader from "@/components/Chat/ChatHeader.vue";
 import ChatMessages from "@/components/Chat/ChatMessages.vue";
 import ChatSidebar from "@/components/Chat/ChatSidebar.vue";
+import MoodMap from "@/components/HeaderActions/MoodMap.vue";
 import SideNav from "@/components/MainPage/SideNav.vue";
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
@@ -19,10 +20,12 @@ interface Message {
 const userStore = useUserStore();
 const selectedUser = ref<UserDoc | null>(null);
 const currentMessages = ref<Message[]>([]);
+const showMoodMap = ref(false);
 
 async function selectChat(user: UserDoc) {
   selectedUser.value = user;
   currentMessages.value = [];
+  showMoodMap.value = false;
   try {
     const response = await fetchy(`/api/messages/${user.username}`, "GET");
     currentMessages.value = response.map((msg: any) => ({
@@ -62,7 +65,10 @@ async function sendMessage(content: string) {
     <ChatSidebar @select-chat="selectChat" />
 
     <div class="chat-window" v-if="selectedUser && userStore.currentUsername">
-      <ChatHeader :user="selectedUser" />
+      <ChatHeader :user="selectedUser" :moodMapToggled="showMoodMap" @toggle-mood-map="showMoodMap = !showMoodMap" />
+      <div v-if="showMoodMap">
+        <MoodMap :recipient="selectedUser.username" />
+      </div>
       <div class="messages-container">
         <ChatMessages :messages="currentMessages" :currentUser="userStore.currentUsername" @send-message="sendMessage" />
       </div>
@@ -83,7 +89,6 @@ async function sendMessage(content: string) {
   margin: 1rem;
   width: 30%;
   border-radius: 20px;
-  border: 1px solid black;
 }
 
 .chat-window,
@@ -92,7 +97,6 @@ async function sendMessage(content: string) {
   width: 60%;
   display: flex;
   border-radius: 20px;
-  border: 1px solid black;
   background-color: var(--content-bg);
 }
 
@@ -104,6 +108,10 @@ async function sendMessage(content: string) {
 
 .chat-window {
   flex-direction: column;
+}
+
+.active-toggle {
+  background-color: var(--select-bg);
 }
 
 .no-chat-selected {

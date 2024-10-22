@@ -3,24 +3,43 @@ import { defineProps } from "vue";
 
 const props = defineProps<{
   user: { username: string };
+  moodMapToggled: boolean;
 }>();
+
+const emit = defineEmits(["toggle-mood-map", "start-video-call"]);
 
 // add the video call api stuff here
 function startVideoCall() {
   console.log("Starting video call with", props.user.username);
+}
+
+function toggleMoodMap() {
+  emit("toggle-mood-map");
 }
 </script>
 
 <template>
   <div class="chat-header">
     <div class="actions">
-      <span @click="startVideoCall"> Video Call 📹 </span>
+      <span @click="startVideoCall">
+        Video Call
+        <img src="@/assets/images/videocall.png" alt="Video Call" />
+      </span>
       |
-      <span> Mood Map 😊 </span>
+      <span @click="toggleMoodMap" :class="{ active: props.moodMapToggled }">
+        Mood Map
+        <img src="@/assets/images/emoji.png" alt="Emoji" />
+      </span>
       |
-      <span> Post-It Wall 📝 </span>
+      <span>
+        Post-It Wall
+        <img src="@/assets/images/notes.png" alt="Notes" />
+      </span>
       |
-      <span> Weathering With You 📝 </span>
+      <span>
+        Weathering With You
+        <img src="@/assets/images/weather.png" alt="Weather" />
+      </span>
     </div>
   </div>
 </template>
@@ -30,7 +49,7 @@ function startVideoCall() {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid var(--base-bg);
+  border-bottom: 2px solid var(--base-bg);
   font-weight: bold;
 }
 
@@ -44,12 +63,20 @@ function startVideoCall() {
 .actions span {
   cursor: pointer;
   display: flex;
-  align-items: center;
   border-radius: 20px;
-  padding: 1rem;
+  padding: 10px;
+  margin: 5px;
 }
 
 .actions span:hover {
+  background-color: #bbb7e9;
+}
+
+img {
+  margin-left: 10px;
+}
+
+.active {
   background-color: #bbb7e9;
 }
 </style>
