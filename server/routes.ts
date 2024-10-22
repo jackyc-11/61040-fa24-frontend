@@ -78,9 +78,6 @@ class Routes {
   async getPosts(session: SessionDoc, recipient: string) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
     await Friending.assertAreFriends(user, recipientUser._id, userName, recipientName);
@@ -92,9 +89,6 @@ class Routes {
   async createPost(session: SessionDoc, recipient: string, content: string, options?: PostOptions) {
     const author = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
     const authorName = (await Authing.getUserById(author)).username;
     const recipientName = recipientUser.username;
     await Friending.assertAreFriends(author, recipientUser._id, authorName, recipientName);
@@ -107,9 +101,6 @@ class Routes {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
     const oid = new ObjectId(id);
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
     await Friending.assertAreFriends(user, recipientUser._id, userName, recipientName);
@@ -121,9 +112,6 @@ class Routes {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
     const oid = new ObjectId(id);
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
     await Friending.assertAreFriends(user, recipientUser._id, userName, recipientName);
@@ -182,10 +170,6 @@ class Routes {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
 
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
-
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
 
@@ -197,10 +181,6 @@ class Routes {
   async getMood(session: SessionDoc, recipient: string) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
-
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
 
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
@@ -216,10 +196,6 @@ class Routes {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
 
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
-
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
 
@@ -233,10 +209,6 @@ class Routes {
 
     const callerUser = await Authing.getUserById(user);
     const recipientUser = await Authing.getUserByUsername(recipient);
-
-    if (!recipientUser) {
-      throw new Error(`Recipient with username ${recipient} not found.`);
-    }
 
     await Friending.assertAreFriends(user, recipientUser._id, callerUser.username, recipientUser.username);
 
@@ -320,11 +292,6 @@ class Routes {
   async getMessagesBetweenUsers(session: SessionDoc, recipient: string) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
-
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
-
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
 
@@ -338,10 +305,6 @@ class Routes {
   async sendMessage(session: SessionDoc, recipient: string, content: string) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
-
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
 
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
@@ -369,10 +332,6 @@ class Routes {
   async getWeather(session: SessionDoc, recipient: string) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
-
-    if (!recipientUser) {
-      throw new Error(`User with username ${recipient} not found.`);
-    }
 
     const userName = (await Authing.getUserById(user)).username;
     const recipientName = recipientUser.username;
