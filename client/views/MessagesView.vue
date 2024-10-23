@@ -3,6 +3,7 @@ import ChatHeader from "@/components/Chat/ChatHeader.vue";
 import ChatMessages from "@/components/Chat/ChatMessages.vue";
 import ChatSidebar from "@/components/Chat/ChatSidebar.vue";
 import MoodMap from "@/components/HeaderActions/MoodMap.vue";
+import VideoCall from "@/components/HeaderActions/VideoCall.vue";
 import WeatheringWithYou from "@/components/HeaderActions/WeatheringWithYou.vue";
 import SideNav from "@/components/MainPage/SideNav.vue";
 // import PostItWall from "@/components/Post/PostItWall.vue";
@@ -25,12 +26,14 @@ const currentMessages = ref<Message[]>([]);
 const showMoodMap = ref(false);
 const showWeathering = ref(false);
 const showPostItWall = ref(false);
+const showVideoCall = ref(false);
 
 function toggleMoodMap() {
   showMoodMap.value = !showMoodMap.value;
   if (showMoodMap.value) {
     showWeathering.value = false;
     showPostItWall.value = false;
+    showVideoCall.value = false;
   }
 }
 
@@ -39,6 +42,7 @@ function toggleWeathering() {
   if (showWeathering.value) {
     showMoodMap.value = false;
     showPostItWall.value = false;
+    showVideoCall.value = false;
   }
 }
 
@@ -47,6 +51,16 @@ function togglePostItWall() {
   if (showPostItWall.value) {
     showMoodMap.value = false;
     showWeathering.value = false;
+    showVideoCall.value = false;
+  }
+}
+
+function toggleVideoCall() {
+  showVideoCall.value = !showVideoCall.value;
+  if (showVideoCall.value) {
+    showMoodMap.value = false;
+    showWeathering.value = false;
+    showPostItWall.value = false;
   }
 }
 
@@ -56,6 +70,7 @@ async function selectChat(user: UserDoc) {
   showMoodMap.value = false;
   showWeathering.value = false;
   showPostItWall.value = false;
+  showVideoCall.value = false;
   try {
     const response = await fetchy(`/api/messages/${user.username}`, "GET");
     currentMessages.value = response.map((msg: any) => ({
@@ -100,9 +115,11 @@ async function sendMessage(content: string) {
         :moodMapToggled="showMoodMap"
         :weatheringToggled="showWeathering"
         :postItWallToggled="showPostItWall"
+        :videoCallToggled="showVideoCall"
         @toggle-mood-map="toggleMoodMap"
         @toggle-weathering="toggleWeathering"
         @toggle-post-it-wall="togglePostItWall"
+        @toggle-video-call="toggleVideoCall"
       />
       <div v-if="showMoodMap" class="mood-map-container">
         <MoodMap :recipient="selectedUser.username" />
@@ -113,6 +130,9 @@ async function sendMessage(content: string) {
       <!-- <div v-if="showPostItWall" class="post-it-wall-container">
         <PostItWall :recipient="selectedUser.username" />
       </div> -->
+      <div v-if="showVideoCall" class="video-call-container">
+        <VideoCall />
+      </div>
       <div class="messages-container" v-if="!showPostItWall">
         <ChatMessages :messages="currentMessages" :currentUser="userStore.currentUsername" @send-message="sendMessage" />
       </div>

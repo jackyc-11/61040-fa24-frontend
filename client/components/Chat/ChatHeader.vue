@@ -6,14 +6,10 @@ const props = defineProps<{
   moodMapToggled: boolean;
   weatheringToggled: boolean;
   postItWallToggled: boolean;
+  videoCallToggled: boolean;
 }>();
 
-const emit = defineEmits(["toggle-mood-map", "start-video-call", "toggle-weathering", "toggle-post-it-wall"]);
-
-// add the video call api stuff here
-function startVideoCall() {
-  console.log("Starting video call with", props.user.username);
-}
+const emit = defineEmits(["toggle-mood-map", "toggle-weathering", "toggle-post-it-wall", "toggle-video-call"]);
 
 function toggleMoodMap() {
   emit("toggle-mood-map");
@@ -26,12 +22,16 @@ function toggleWeathering() {
 function togglePostItWall() {
   emit("toggle-post-it-wall");
 }
+
+function toggleVideoCall() {
+  emit("toggle-video-call");
+}
 </script>
 
 <template>
   <div class="chat-header">
     <div class="actions">
-      <span @click="startVideoCall">
+      <span @click="toggleVideoCall" :class="{ active: props.videoCallToggled }">
         Video Call
         <img src="@/assets/images/videocall.png" alt="Video Call" />
       </span>
