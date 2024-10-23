@@ -5,7 +5,7 @@ import ChatSidebar from "@/components/Chat/ChatSidebar.vue";
 import MoodMap from "@/components/HeaderActions/MoodMap.vue";
 import WeatheringWithYou from "@/components/HeaderActions/WeatheringWithYou.vue";
 import SideNav from "@/components/MainPage/SideNav.vue";
-import PostItWall from "@/components/Post/PostItWall.vue";
+// import PostItWall from "@/components/Post/PostItWall.vue";
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
 import { ref } from "vue";
@@ -110,9 +110,9 @@ async function sendMessage(content: string) {
       <div v-if="showWeathering" class="weathering-container">
         <WeatheringWithYou :recipient="selectedUser.username" />
       </div>
-      <div v-if="showPostItWall" class="post-it-wall-container">
+      <!-- <div v-if="showPostItWall" class="post-it-wall-container">
         <PostItWall :recipient="selectedUser.username" />
-      </div>
+      </div> -->
       <div class="messages-container" v-if="!showPostItWall">
         <ChatMessages :messages="currentMessages" :currentUser="userStore.currentUsername" @send-message="sendMessage" />
       </div>
