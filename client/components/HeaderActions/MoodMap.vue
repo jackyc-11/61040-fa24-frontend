@@ -13,10 +13,9 @@ const recipientMood = ref("");
 async function fetchMoods() {
   try {
     const response = await fetchy(`/api/moods/${props.recipient}`, "GET");
-
-    const moods = response;
-    yourMood.value = moods.yourMood || "";
-    recipientMood.value = moods.recipientMood || "";
+    const parts = response.split(`${props.recipient}:`);
+    yourMood.value = parts[0].replace("You:", "").trim();
+    recipientMood.value = parts[1].trim();
   } catch (error) {
     console.error("Error fetching moods:", error);
   }
@@ -25,18 +24,18 @@ async function fetchMoods() {
 async function setMood() {
   try {
     await fetchy(`/api/moods`, "POST", { body: { mood: yourMood.value, recipient: props.recipient } });
-  } catch (error) {
-    // if (error.message.includes("Mood must be a valid emoji!")) {
-    //   yourMood.value = "";
-    // } else {
-    console.error("Error setting mood:", error);
-    // }
+  } catch (error: any) {
+    if (error.message.includes("Mood must be a valid emoji!")) {
+      yourMood.value = "";
+    } else {
+      console.error("Error setting mood:", error);
+    }
   }
 }
 
 async function removeMood() {
   try {
-    await fetchy(`/api/moods`, "DELETE", { body: { recipient: props.recipient } });
+    await fetchy(`/api/moods/${props.recipient}`, "DELETE");
     yourMood.value = "";
   } catch (error) {
     console.error("Error removing mood:", error);
@@ -50,11 +49,14 @@ onMounted(async () => {
 
 <template>
   <div class="mood-map">
-    Type an emoji!
+    <div class="inputemoji">
+      Type an emoji!
+      <input type="text" v-model="yourMood" maxlength="2" @input="setMood" />
+      <img @click="removeMood" src="@/assets/images/x.png" alt="X" class="x-icon" />
+    </div>
     <div class="mood-box">
       <span>You:</span>
-      <input v-model="yourMood" maxlength="1" @input="setMood" />
-      <img @click="removeMood" src="@/assets/images/x.png" alt="X" class="x-icon" />
+      <span class="" emoji>{{ yourMood }}</span>
     </div>
     <div class="mood-box">
       <span>{{ props.recipient }}:</span>
@@ -70,6 +72,11 @@ onMounted(async () => {
   align-items: center;
   padding: 10px 0px;
   border-bottom: 2px solid var(--base-bg);
+}
+
+.inputemoji {
+  display: flex;
+  align-items: center;
 }
 
 .mood-box {

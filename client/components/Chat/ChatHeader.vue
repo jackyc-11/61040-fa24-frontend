@@ -4,9 +4,11 @@ import { defineProps } from "vue";
 const props = defineProps<{
   user: { username: string };
   moodMapToggled: boolean;
+  weatheringToggled: boolean;
+  postItWallToggled: boolean;
 }>();
 
-const emit = defineEmits(["toggle-mood-map", "start-video-call"]);
+const emit = defineEmits(["toggle-mood-map", "start-video-call", "toggle-weathering", "toggle-post-it-wall"]);
 
 // add the video call api stuff here
 function startVideoCall() {
@@ -15,6 +17,14 @@ function startVideoCall() {
 
 function toggleMoodMap() {
   emit("toggle-mood-map");
+}
+
+function toggleWeathering() {
+  emit("toggle-weathering");
+}
+
+function togglePostItWall() {
+  emit("toggle-post-it-wall");
 }
 </script>
 
@@ -31,12 +41,12 @@ function toggleMoodMap() {
         <img src="@/assets/images/emoji.png" alt="Emoji" />
       </span>
       |
-      <span>
+      <span @click="togglePostItWall" :class="{ active: props.postItWallToggled }">
         Post-It Wall
         <img src="@/assets/images/notes.png" alt="Notes" />
       </span>
       |
-      <span>
+      <span @click="toggleWeathering" :class="{ active: props.weatheringToggled }">
         Weathering With You
         <img src="@/assets/images/weather.png" alt="Weather" />
       </span>

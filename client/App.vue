@@ -28,9 +28,15 @@ onBeforeMount(async () => {
 
 <template>
   <div>
+    <header>
+      <article v-if="toast !== null" class="toast" :class="toast.style">
+        <p>{{ toast.message }}</p>
+      </article>
+    </header>
     <RouterView />
-    <article v-if="toast !== null" class="toast" :class="toast.style">
-      <p>{{ toast.message }}</p>
-    </article>
   </div>
 </template>
+
+<style scoped>
+@import "./assets/toast.css";
+</style>

@@ -3,7 +3,9 @@ import ChatHeader from "@/components/Chat/ChatHeader.vue";
 import ChatMessages from "@/components/Chat/ChatMessages.vue";
 import ChatSidebar from "@/components/Chat/ChatSidebar.vue";
 import MoodMap from "@/components/HeaderActions/MoodMap.vue";
+import WeatheringWithYou from "@/components/HeaderActions/WeatheringWithYou.vue";
 import SideNav from "@/components/MainPage/SideNav.vue";
+import PostItWall from "@/components/Post/PostItWall.vue";
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
 import { ref } from "vue";
@@ -21,11 +23,39 @@ const userStore = useUserStore();
 const selectedUser = ref<UserDoc | null>(null);
 const currentMessages = ref<Message[]>([]);
 const showMoodMap = ref(false);
+const showWeathering = ref(false);
+const showPostItWall = ref(false);
+
+function toggleMoodMap() {
+  showMoodMap.value = !showMoodMap.value;
+  if (showMoodMap.value) {
+    showWeathering.value = false;
+    showPostItWall.value = false;
+  }
+}
+
+function toggleWeathering() {
+  showWeathering.value = !showWeathering.value;
+  if (showWeathering.value) {
+    showMoodMap.value = false;
+    showPostItWall.value = false;
+  }
+}
+
+function togglePostItWall() {
+  showPostItWall.value = !showPostItWall.value;
+  if (showPostItWall.value) {
+    showMoodMap.value = false;
+    showWeathering.value = false;
+  }
+}
 
 async function selectChat(user: UserDoc) {
   selectedUser.value = user;
   currentMessages.value = [];
   showMoodMap.value = false;
+  showWeathering.value = false;
+  showPostItWall.value = false;
   try {
     const response = await fetchy(`/api/messages/${user.username}`, "GET");
     currentMessages.value = response.map((msg: any) => ({
@@ -65,11 +95,25 @@ async function sendMessage(content: string) {
     <ChatSidebar @select-chat="selectChat" />
 
     <div class="chat-window" v-if="selectedUser && userStore.currentUsername">
-      <ChatHeader :user="selectedUser" :moodMapToggled="showMoodMap" @toggle-mood-map="showMoodMap = !showMoodMap" />
-      <div v-if="showMoodMap">
+      <ChatHeader
+        :user="selectedUser"
+        :moodMapToggled="showMoodMap"
+        :weatheringToggled="showWeathering"
+        :postItWallToggled="showPostItWall"
+        @toggle-mood-map="toggleMoodMap"
+        @toggle-weathering="toggleWeathering"
+        @toggle-post-it-wall="togglePostItWall"
+      />
+      <div v-if="showMoodMap" class="mood-map-container">
         <MoodMap :recipient="selectedUser.username" />
       </div>
-      <div class="messages-container">
+      <div v-if="showWeathering" class="weathering-container">
+        <WeatheringWithYou :recipient="selectedUser.username" />
+      </div>
+      <div v-if="showPostItWall" class="post-it-wall-container">
+        <PostItWall :recipient="selectedUser.username" />
+      </div>
+      <div class="messages-container" v-if="!showPostItWall">
         <ChatMessages :messages="currentMessages" :currentUser="userStore.currentUsername" @send-message="sendMessage" />
       </div>
     </div>
@@ -83,6 +127,7 @@ async function sendMessage(content: string) {
 .messages-page {
   display: flex;
   height: 100vh;
+  overflow: hidden;
 }
 
 .chat-sidebar {
@@ -98,12 +143,15 @@ async function sendMessage(content: string) {
   display: flex;
   border-radius: 20px;
   background-color: var(--content-bg);
+  overflow: hidden;
 }
 
 .messages-container {
   display: flex;
   flex-direction: column;
   height: 90%;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .chat-window {

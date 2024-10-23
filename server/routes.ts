@@ -191,7 +191,7 @@ class Routes {
     return `You: ${moods.yourMood || ""}    ${recipientName}: ${moods.recipientMood || ""}`;
   }
 
-  @Router.delete("/moods")
+  @Router.delete("/moods/:recipient")
   async removeMood(session: SessionDoc, recipient: string) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);

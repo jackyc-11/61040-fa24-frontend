@@ -32,6 +32,9 @@ export default class WeatheringConcept {
 
   // Allow a user to turn on sharing
   async turnOnShare(user: ObjectId, city: string, state: string) {
+    if (!city || !state) {
+      throw new Error("Both city and state are required to turn on weather sharing.");
+    }
     const existingShare = await this.shares.readOne({ user });
     const weatherInfo = { city, state, agreed: true };
 
