@@ -61,6 +61,7 @@ function toggleVideoCall() {
   align-items: center;
   border-bottom: 2px solid var(--base-bg);
   font-weight: bold;
+  background-color: white;
 }
 
 .actions {
@@ -79,7 +80,7 @@ function toggleVideoCall() {
 }
 
 .actions span:hover {
-  background-color: #bbb7e9;
+  background-color: var(--select-bg);
 }
 
 img {
@@ -87,6 +88,6 @@ img {
 }
 
 .active {
-  background-color: #bbb7e9;
+  background-color: var(--select-bg);
 }
 </style>

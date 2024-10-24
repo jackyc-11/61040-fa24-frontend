@@ -72,6 +72,9 @@ onMounted(async () => {
   align-items: center;
   padding: 10px 0px;
   border-bottom: 2px solid var(--base-bg);
+  background-color: var(--header-bg);
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
 }
 
 .inputemoji {

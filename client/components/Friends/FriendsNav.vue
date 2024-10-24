@@ -53,7 +53,7 @@ import { RouterLink } from "vue-router";
 }
 
 .nav-item:hover {
-  background-color: #e0e0e0;
+  background-color: var(--select-bg);
 }
 
 .icon-text {
@@ -68,6 +68,6 @@ import { RouterLink } from "vue-router";
 
 .arrow {
   font-size: 1.5rem;
-  color: #888;
+  color: black;
 }
 </style>

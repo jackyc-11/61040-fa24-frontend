@@ -69,6 +69,7 @@ onMounted(async () => {
 
 .friend-item {
   display: flex;
+  margin: 0px 10px;
   align-items: center;
   cursor: pointer;
   border-radius: 20px;
@@ -76,7 +77,7 @@ onMounted(async () => {
 
 .friend-item:hover,
 .selected {
-  background-color: #bbb7e9;
+  background-color: var(--select-bg);
 }
 
 .friend-avatar img {

@@ -3,8 +3,10 @@
 :root {
   --red: rgb(208, 67, 12);
   --base-bg: #75C1FB;
-  --content-bg: white;
-  --select-bg: #bac5c9;
+  --content-bg: #B9E1FF;
+  --select-bg: #BBB7E9;
+  --header-bg: #FED1CF;
+  --separator: black;
 }
 
 body {

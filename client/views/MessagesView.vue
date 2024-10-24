@@ -6,7 +6,7 @@ import MoodMap from "@/components/HeaderActions/MoodMap.vue";
 import VideoCall from "@/components/HeaderActions/VideoCall.vue";
 import WeatheringWithYou from "@/components/HeaderActions/WeatheringWithYou.vue";
 import SideNav from "@/components/MainPage/SideNav.vue";
-// import PostItWall from "@/components/Post/PostItWall.vue";
+import PostItWall from "@/components/Post/PostItWall.vue";
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
 import { ref } from "vue";
@@ -127,9 +127,9 @@ async function sendMessage(content: string) {
       <div v-if="showWeathering" class="weathering-container">
         <WeatheringWithYou :recipient="selectedUser.username" />
       </div>
-      <!-- <div v-if="showPostItWall" class="post-it-wall-container">
+      <div v-if="showPostItWall" class="post-it-wall-container">
         <PostItWall :recipient="selectedUser.username" />
-      </div> -->
+      </div>
       <div v-if="showVideoCall" class="video-call-container">
         <VideoCall />
       </div>

@@ -96,7 +96,7 @@ class Routes {
     return { msg: created.msg, post: await Responses.post(created.post) };
   }
 
-  @Router.patch("/posts/:id")
+  @Router.patch("/posts/:id/:recipient")
   async updatePost(session: SessionDoc, recipient: string, id: string, content?: string, options?: PostOptions) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);
@@ -107,7 +107,7 @@ class Routes {
     return await Posting.update(oid, content, options);
   }
 
-  @Router.delete("/posts/:id")
+  @Router.delete("/posts/:id/:recipient")
   async deletePost(session: SessionDoc, recipient: string, id: string) {
     const user = Sessioning.getUser(session);
     const recipientUser = await Authing.getUserByUsername(recipient);

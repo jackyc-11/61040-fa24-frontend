@@ -103,7 +103,7 @@ h1 {
   display: flex;
   align-items: center;
   padding: 0.75rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--separator);
 }
 
 .user-avatar img {

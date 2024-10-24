@@ -67,14 +67,14 @@ function messageClass(message: Message) {
 }
 
 .my-message {
-  background-color: #d6dde3;
+  background-color: #72b7e2;
   text-align: right;
   margin-left: auto;
 }
 
 .their-message {
   text-align: left;
-  background-color: #fed1cf;
+  background-color: white;
   width: auto;
 }
 

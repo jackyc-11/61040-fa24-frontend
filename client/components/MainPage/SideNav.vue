@@ -5,17 +5,17 @@ import { RouterLink } from "vue-router";
 <template>
   <nav class="side-nav">
     <RouterLink :to="{ name: 'Messages' }" class="nav-icon" title="Messages">
-      <img src="@/assets/images/messages-section.png" alt="Messages Icon" />
+      <img src="@/assets/images/dark-msg-section.png" alt="Messages Icon" />
     </RouterLink>
 
     <RouterLink :to="{ name: 'Friends' }" class="nav-icon" title="Friends">
-      <img src="@/assets/images/friend-section.png" alt="Friends Icon" />
+      <img src="@/assets/images/dark-friend-section.png" alt="Friends Icon" />
     </RouterLink>
 
     <div class="spacer"></div>
 
     <RouterLink :to="{ name: 'Settings' }" class="nav-icon" title="Settings">
-      <img src="@/assets/images/setting-section.png" alt="Settings Icon" />
+      <img src="@/assets/images/dark-setting-section.png" alt="Settings Icon" />
     </RouterLink>
   </nav>
 </template>

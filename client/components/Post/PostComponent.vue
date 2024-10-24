@@ -1,71 +1,76 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-import { formatDate } from "@/utils/formatDate";
-import { storeToRefs } from "pinia";
+import { ref } from "vue";
 import { fetchy } from "../../utils/fetchy";
 
 const props = defineProps(["post"]);
-const emit = defineEmits(["editPost", "refreshPosts"]);
-const { currentUsername } = storeToRefs(useUserStore());
+const emit = defineEmits(["refreshPosts"]);
 
-const deletePost = async () => {
+const isEditing = ref(false);
+const content = ref(props.post.content);
+
+async function savePost() {
+  try {
+    await fetchy(`/api/posts/${props.post._id}`, "PATCH", {
+      body: { content: content.value },
+    });
+    emit("refreshPosts");
+  } catch (error) {
+    console.error("Error saving post:", error);
+  } finally {
+    isEditing.value = false;
+  }
+}
+
+async function deletePost() {
   try {
     await fetchy(`/api/posts/${props.post._id}`, "DELETE");
-  } catch {
-    return;
+    emit("refreshPosts");
+  } catch (error) {
+    console.error("Error deleting post:", error);
   }
-  emit("refreshPosts");
-};
+}
 </script>
 
 <template>
-  <p class="author">{{ props.post.author }}</p>
-  <p>{{ props.post.content }}</p>
-  <div class="base">
-    <menu v-if="props.post.author == currentUsername">
-      <li><button class="btn-small pure-button" @click="emit('editPost', props.post._id)">Edit</button></li>
-      <li><button class="button-error btn-small pure-button" @click="deletePost">Delete</button></li>
-    </menu>
-    <article class="timestamp">
-      <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ formatDate(props.post.dateUpdated) }}</p>
-      <p v-else>Created on: {{ formatDate(props.post.dateCreated) }}</p>
-    </article>
+  <div class="post">
+    <div v-if="isEditing">
+      <textarea v-model="content"></textarea>
+      <div class="buttons">
+        <button @click="savePost">Save</button>
+        <button @click="deletePost">Delete</button>
+      </div>
+    </div>
+    <div v-else>
+      <p>{{ content }}</p>
+    </div>
   </div>
 </template>
 
 <style scoped>
-p {
-  margin: 0em;
-}
-
-.author {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-menu {
-  list-style-type: none;
+.post {
   display: flex;
-  flex-direction: row;
-  gap: 1em;
-  padding: 0;
-  margin: 0;
-}
-
-.timestamp {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 0.9em;
-  font-style: italic;
-}
-
-.base {
-  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  padding: 10px;
+  width: 150px;
+  height: 150px;
+  background-color: inherit;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.base article:only-child {
-  margin-left: auto;
+textarea {
+  width: 100%;
+  height: 80px;
+  resize: none;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+button {
+  padding: 5px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
 }
 </style>

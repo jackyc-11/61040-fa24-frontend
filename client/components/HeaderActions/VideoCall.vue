@@ -12,5 +12,6 @@
   align-items: center;
   justify-content: center;
   border-bottom: 2px solid var(--base-bg);
+  background-color: var(--header-bg);
 }
 </style>
