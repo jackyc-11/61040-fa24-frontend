@@ -164,6 +164,7 @@ async function sendMessage(content: string) {
   border-radius: 20px;
   background-color: var(--content-bg);
   overflow: hidden;
+  box-shadow: var(--shadow);
 }
 
 .messages-container {

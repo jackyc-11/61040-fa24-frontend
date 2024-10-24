@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
+
+const route = useRoute();
 </script>
 
 <template>
   <nav class="side-nav">
-    <RouterLink :to="{ name: 'Messages' }" class="nav-icon" title="Messages">
+    <RouterLink :to="{ name: 'Messages' }" :class="{ active: route.name === 'Messages' }" class="nav-icon" title="Messages">
       <img src="@/assets/images/dark-msg-section.png" alt="Messages Icon" />
     </RouterLink>
 
-    <RouterLink :to="{ name: 'Friends' }" class="nav-icon" title="Friends">
+    <RouterLink :to="{ name: 'Friends' }" :class="{ active: route.name === 'Friends' }" class="nav-icon" title="Friends">
       <img src="@/assets/images/dark-friend-section.png" alt="Friends Icon" />
     </RouterLink>
 
     <div class="spacer"></div>
 
-    <RouterLink :to="{ name: 'Settings' }" class="nav-icon" title="Settings">
+    <RouterLink :to="{ name: 'Settings' }" :class="{ active: route.name === 'Settings' }" class="nav-icon" title="Settings">
       <img src="@/assets/images/dark-setting-section.png" alt="Settings Icon" />
     </RouterLink>
   </nav>
@@ -29,10 +31,17 @@ import { RouterLink } from "vue-router";
 
 .nav-icon {
   margin-bottom: 1rem;
+  border-radius: 10px;
+  padding: 2px;
 }
 
 .nav-icon:hover {
   cursor: pointer;
+}
+
+.nav-icon.active,
+.nav-icon:hover {
+  background-color: #bac5c9;
 }
 
 .spacer {

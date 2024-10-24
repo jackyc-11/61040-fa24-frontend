@@ -53,6 +53,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   background-color: var(--content-bg);
+  box-shadow: var(--shadow);
 }
 
 .search-bar {

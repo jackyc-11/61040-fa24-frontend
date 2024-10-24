@@ -2,16 +2,13 @@
 
 <template>
   <div class="video-call">
-    <p class="video-call-text">Video calling not implemented due to requirement of billing for many video call APIs 😔</p>
+    <p class="video-call-text">Video call not implemented due to billing requirement for many video call APIs 😔</p>
   </div>
 </template>
 
 <style scoped>
+@import "Header.css";
 .video-call {
-  display: flex;
-  align-items: center;
   justify-content: center;
-  border-bottom: 2px solid var(--base-bg);
-  background-color: var(--header-bg);
 }
 </style>

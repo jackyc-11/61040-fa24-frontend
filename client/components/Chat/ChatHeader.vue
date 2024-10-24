@@ -59,7 +59,7 @@ function toggleVideoCall() {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 2px solid var(--base-bg);
+  border-bottom: 2px solid var(--separator);
   font-weight: bold;
   background-color: white;
 }

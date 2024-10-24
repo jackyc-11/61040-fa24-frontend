@@ -39,6 +39,11 @@ async function delete_() {
 }
 
 .settings-content {
-  flex-grow: 1;
+  margin: auto;
+  width: 70%;
+  height: 80%;
+  background-color: var(--content-bg);
+  border-radius: 30px;
+  box-shadow: var(--shadow);
 }
 </style>

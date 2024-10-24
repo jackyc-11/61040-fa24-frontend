@@ -1,34 +1,33 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute } from "vue-router";
+
+const route = useRoute();
 </script>
 
 <template>
   <nav class="friends-nav">
     <!-- Friends List -->
-    <RouterLink to="/friends/list" class="nav-item">
+    <RouterLink to="/friends/list" class="nav-item" :class="{ active: route.path === '/friends/list' }">
       <div class="icon-text">
         <span class="icon"><img src="@/assets/images/friendslist.png" alt="Friends List" /></span>
         <span class="text">Friends List</span>
       </div>
-      <span class="arrow">➤</span>
     </RouterLink>
 
     <!-- Add Friends -->
-    <RouterLink to="/friends/add" class="nav-item">
+    <RouterLink to="/friends/add" class="nav-item" :class="{ active: route.path === '/friends/add' }">
       <div class="icon-text">
         <span class="icon"><img src="@/assets/images/addfriends.png" alt="Add Friends" /></span>
         <span class="text">Add Friends</span>
       </div>
-      <span class="arrow">➤</span>
     </RouterLink>
 
     <!-- Friend Requests -->
-    <RouterLink to="/friends/requests" class="nav-item">
+    <RouterLink to="/friends/requests" class="nav-item" :class="{ active: route.path === '/friends/requests' }">
       <div class="icon-text">
         <span class="icon"><img src="@/assets/images/friendrequests.png" alt="Friend Requests" /></span>
         <span class="text">Friend Requests</span>
       </div>
-      <span class="arrow">➤</span>
     </RouterLink>
   </nav>
 </template>
@@ -52,7 +51,8 @@ import { RouterLink } from "vue-router";
   background-color: #fff;
 }
 
-.nav-item:hover {
+.nav-item:hover,
+.nav-item.active {
   background-color: var(--select-bg);
 }
 
@@ -62,12 +62,6 @@ import { RouterLink } from "vue-router";
 }
 
 .icon {
-  font-size: 1.5rem;
   margin-right: 10px;
-}
-
-.arrow {
-  font-size: 1.5rem;
-  color: black;
 }
 </style>
