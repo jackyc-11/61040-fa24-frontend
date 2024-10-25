@@ -11,13 +11,23 @@ const postColor = ref(props.post.options?.backgroundColor || "#FFFFFF");
 async function savePost() {
   try {
     await fetchy(`/api/posts/${props.post._id}/${props.post.recipient}`, "PATCH", {
-      body: { content: postContent.value, options: { backgroundColor: postColor.value } },
+      body: {
+        content: postContent.value,
+        options: {
+          position: props.post.options.position,
+          backgroundColor: postColor.value,
+        },
+      },
     });
 
     emit("postUpdated", {
       _id: props.post._id,
       content: postContent.value,
-      options: { backgroundColor: postColor.value, position: props.post.options.position },
+      options: {
+        backgroundColor: postColor.value,
+        position: props.post.options.position,
+      },
+      recipient: props.post.recipient,
     });
 
     emit("closeEditor");

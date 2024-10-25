@@ -11,12 +11,12 @@ function createPost() {
   const newPost = {
     _id: Date.now().toString(),
     content: newPostContent.value,
-    position: {
-      top: Math.random() * 400,
-      left: Math.random() * 400,
-    },
     options: {
       backgroundColor: newPostColor.value,
+      position: {
+        top: Math.random() * 400,
+        left: Math.random() * 400,
+      },
     },
   };
 

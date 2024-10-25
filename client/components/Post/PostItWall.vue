@@ -24,6 +24,12 @@ const posts = ref<Post[]>([]);
 const showNote = ref(false);
 const editingPost = ref<Post | null>(null);
 
+const isDragging = ref(false);
+const draggedPost = ref<Post | null>(null);
+const startX = ref(0);
+const startY = ref(0);
+const hasDragged = ref(false);
+
 async function getPosts() {
   try {
     const response = await fetchy(`/api/posts/${props.recipient}`, "GET");
@@ -33,7 +39,7 @@ async function getPosts() {
       recipient: post.recipient,
       content: post.content,
       options: {
-        position: post.options.position || { top: Math.random() * 400, left: Math.random() * 400 },
+        position: post.options?.position,
         backgroundColor: post.options.backgroundColor || "#ffffff",
       },
     }));
@@ -64,7 +70,11 @@ function editPost(post: Post) {
 function updatePostInArray(updatedPost: Post) {
   const index = posts.value.findIndex((p) => p._id === updatedPost._id);
   if (index !== -1) {
-    posts.value[index] = updatedPost;
+    posts.value[index] = {
+      ...posts.value[index],
+      content: updatedPost.content,
+      options: updatedPost.options,
+    };
   }
 }
 
@@ -72,8 +82,64 @@ function closeEditor() {
   editingPost.value = null;
 }
 
+function onMouseDown(post: Post, event: MouseEvent) {
+  if (!post.options.position) {
+    post.options.position = { top: 0, left: 0 };
+  }
+
+  isDragging.value = true;
+  draggedPost.value = post;
+  hasDragged.value = false;
+
+  startX.value = event.clientX - post.options.position.left;
+  startY.value = event.clientY - post.options.position.top;
+
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
+}
+
+function onMouseMove(event: MouseEvent) {
+  if (!isDragging.value || !draggedPost.value) return;
+
+  draggedPost.value.options.position.left = event.clientX - startX.value;
+  draggedPost.value.options.position.top = event.clientY - startY.value;
+  hasDragged.value = true;
+}
+
+async function onMouseUp() {
+  if (isDragging.value && draggedPost.value) {
+    try {
+      await fetchy(`/api/posts/${draggedPost.value._id}/${props.recipient}`, "PATCH", {
+        body: {
+          content: draggedPost.value.content,
+          options: {
+            position: draggedPost.value.options.position,
+            backgroundColor: draggedPost.value.options.backgroundColor,
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Failed to update post position:", error);
+    }
+  }
+
+  isDragging.value = false;
+  draggedPost.value = null;
+
+  document.removeEventListener("mousemove", onMouseMove);
+  document.removeEventListener("mouseup", onMouseUp);
+}
+
+function handlePostClick(post: Post) {
+  if (!hasDragged.value) {
+    editPost(post);
+  }
+}
+
 onMounted(async () => {
   await getPosts();
+  document.addEventListener("mousemove", onMouseMove);
+  document.addEventListener("mouseup", onMouseUp);
 });
 </script>
 
@@ -87,8 +153,13 @@ onMounted(async () => {
       v-for="post in posts"
       :key="post._id"
       class="post-item"
-      :style="{ top: post.options?.position?.top + 'px', left: post.options?.position?.left + 'px', backgroundColor: post.options?.backgroundColor || '#ffffff' }"
-      @click="editPost(post)"
+      :style="{
+        top: post.options?.position?.top + 'px',
+        left: post.options?.position?.left + 'px',
+        backgroundColor: post.options?.backgroundColor || '#ffffff',
+      }"
+      @click="handlePostClick(post)"
+      @mousedown="onMouseDown(post, $event)"
     >
       <PostComponent :post="post" />
     </div>
@@ -126,6 +197,9 @@ onMounted(async () => {
 .post-item {
   position: absolute;
   cursor: pointer;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  overflow-y: scroll;
 }
 
 .add-post-btn {
