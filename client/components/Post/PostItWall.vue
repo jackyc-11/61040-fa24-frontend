@@ -107,23 +107,20 @@ function onMouseMove(event: MouseEvent) {
 }
 
 async function onMouseUp() {
-  if (isDragging.value && draggedPost.value) {
-    try {
-      await fetchy(`/api/posts/${draggedPost.value._id}/${props.recipient}`, "PATCH", {
-        body: {
-          content: draggedPost.value.content,
-          options: {
-            position: draggedPost.value.options.position,
-            backgroundColor: draggedPost.value.options.backgroundColor,
-          },
+  if (isDragging.value && draggedPost.value && hasDragged.value) {
+    await fetchy(`/api/posts/${draggedPost.value._id}/${props.recipient}`, "PATCH", {
+      body: {
+        content: draggedPost.value.content,
+        options: {
+          position: draggedPost.value.options.position,
+          backgroundColor: draggedPost.value.options.backgroundColor,
         },
-      });
-    } catch (error) {
-      console.error("Failed to update post position:", error);
-    }
+      },
+    });
   }
 
   isDragging.value = false;
+  hasDragged.value = false;
   draggedPost.value = null;
 
   document.removeEventListener("mousemove", onMouseMove);

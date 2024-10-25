@@ -22,6 +22,7 @@ function sendMessage() {
 }
 
 function messageClass(message: Message) {
+  console.log(message.sender === props.currentUser ? "my-message" : "their-message");
   return message.sender === props.currentUser ? "my-message" : "their-message";
 }
 </script>

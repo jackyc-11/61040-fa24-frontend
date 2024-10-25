@@ -88,7 +88,7 @@ async function sendMessage(content: string) {
 
   const newMessage: Message = {
     content,
-    sender: "me",
+    sender: userStore.currentUsername,
   };
 
   try {
