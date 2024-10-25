@@ -54,19 +54,16 @@ onMounted(async () => {
 
 h1 {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
 }
 
 .friends-list {
-  list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .friend-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem;
+  padding: 0.5rem;
   border-bottom: 1px solid var(--separator);
 }
 
@@ -78,23 +75,13 @@ h1 {
 
 .friend-info {
   flex-grow: 1;
-  margin-left: 10px;
-}
-
-.friend-info p {
-  margin: 0;
-  font-size: 1rem;
 }
 
 .friend-actions button {
-  background-color: #ccc;
+  background-color: #f7a49e;
   border: none;
   padding: 0.5rem;
   cursor: pointer;
   border-radius: 5px;
-}
-
-.friend-actions button:hover {
-  background-color: #ff1a1a;
 }
 </style>

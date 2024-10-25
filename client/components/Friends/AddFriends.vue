@@ -50,9 +50,7 @@ onMounted(async () => {
 <template>
   <div class="add-friends-container">
     <h1>Add Friends</h1>
-    <div class="search-bar">
-      <input v-model="searchQuery" type="text" placeholder="Search Tether" />
-    </div>
+    <input v-model="searchQuery" type="text" placeholder="Search Tether" class="search-bar" />
 
     <ul class="users-list">
       <li v-for="user in filteredUsers" :key="user.username" class="user-item">
@@ -79,30 +77,23 @@ onMounted(async () => {
 
 h1 {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
 }
 
 .search-bar {
-  margin-bottom: 1rem;
-}
-
-.search-bar input {
   padding: 0.5rem;
-  width: 90%;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 20px;
+  width: 95%;
 }
 
 .users-list {
-  list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .user-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem;
+  padding: 0.5rem;
   border-bottom: 1px solid var(--separator);
 }
 
@@ -114,24 +105,13 @@ h1 {
 
 .user-info {
   flex-grow: 1;
-  margin-left: 10px;
-}
-
-.user-info p {
-  margin: 0;
-  font-size: 1rem;
 }
 
 .user-actions button {
-  background-color: #ccc;
+  background-color: #9fbfad;
   border: none;
   padding: 0.5rem;
   cursor: pointer;
   border-radius: 5px;
-  margin-left: 0.5rem;
-}
-
-.user-actions button:hover {
-  background-color: #bbb;
 }
 </style>

@@ -6,6 +6,7 @@ const route = useRoute();
 
 <template>
   <nav class="side-nav">
+    <img src="@/assets/images/tether_logo_sm.png" alt="Tether Logo" class="app-icon" />
     <RouterLink :to="{ name: 'Messages' }" :class="{ active: route.name === 'Messages' }" class="nav-icon" title="Messages">
       <img src="@/assets/images/dark-msg-section.png" alt="Messages Icon" />
     </RouterLink>
@@ -27,6 +28,10 @@ const route = useRoute();
   display: flex;
   flex-direction: column;
   padding: 1rem;
+}
+
+.app-icon {
+  margin-bottom: 1rem;
 }
 
 .nav-icon {

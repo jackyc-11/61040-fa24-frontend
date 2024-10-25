@@ -84,19 +84,16 @@ onMounted(async () => {
 
 h1 {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
 }
 
 .requests-list {
-  list-style: none;
   padding: 0;
-  margin: 0;
 }
 
 .request-item {
   display: flex;
   align-items: center;
-  padding: 0.75rem;
+  padding: 0.5rem;
   border-bottom: 1px solid var(--separator);
 }
 
@@ -108,7 +105,6 @@ h1 {
 
 .request-info {
   flex-grow: 1;
-  margin-left: 10px;
 }
 
 .request-info p {
@@ -118,19 +114,22 @@ h1 {
 
 .request-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+.accept-btn {
+  background-color: #9fbfad;
+}
+
+.delete-btn {
+  background-color: #f7a49e;
 }
 
 .accept-btn,
 .delete-btn {
-  background-color: #ccc;
   border: none;
   padding: 0.5rem;
   cursor: pointer;
-}
-
-.accept-btn:hover,
-.delete-btn:hover {
-  background-color: #bbb;
+  border-radius: 5px;
 }
 </style>

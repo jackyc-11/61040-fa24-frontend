@@ -138,7 +138,7 @@ async function sendMessage(content: string) {
       </div>
     </div>
     <div v-else class="no-chat-selected">
-      <p>Select a user to start chatting</p>
+      <p>Select a user to start tethering!</p>
     </div>
   </div>
 </template>

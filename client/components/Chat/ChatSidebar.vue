@@ -91,9 +91,4 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
 }
-
-.last-message {
-  color: #999;
-  font-size: 0.85rem;
-}
 </style>

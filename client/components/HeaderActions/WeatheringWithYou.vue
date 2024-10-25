@@ -80,8 +80,8 @@ onMounted(async () => {
           State:
           <input v-model="state" placeholder="Enter state" />
         </label>
-        <button @click="turnOnShare">Submit (Turn on Share)</button>
-        <button @click="turnOffShare">Turn Off Share</button>
+        <button @click="turnOnShare" class="turn-on-btn">Submit (Turn on Share)</button>
+        <button @click="turnOffShare" class="turn-off-btn">Turn Off Share</button>
       </div>
 
       <div v-if="isSharing" class="weather-info">
@@ -108,6 +108,7 @@ onMounted(async () => {
 .weathering-container {
   justify-content: space-around;
   padding: 10px 0px;
+  background-color: var(--header-bg);
 }
 
 .weather-controls {
@@ -119,17 +120,32 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  padding: 10px;
-  border-radius: 10px;
+  padding: 5px;
 }
 
 input {
   margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.turn-on-btn {
+  background-color: #9fbfad;
+}
+
+.turn-off-btn {
+  background-color: #f7a49e;
 }
 
 button {
   margin-right: 10px;
   cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 15px;
 }
 
 .weather-block {
@@ -138,5 +154,6 @@ button {
   border-radius: 10px;
   padding: 0px 10px;
   background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 </style>
