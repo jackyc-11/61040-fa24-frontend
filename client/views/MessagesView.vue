@@ -9,7 +9,10 @@ import SideNav from "@/components/MainPage/SideNav.vue";
 import PostItWall from "@/components/Post/PostItWall.vue";
 import { useUserStore } from "@/stores/user";
 import { fetchy } from "@/utils/fetchy";
-import { ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
+
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3000");
 
 interface UserDoc {
   username: string;
@@ -83,7 +86,26 @@ async function selectChat(user: UserDoc) {
   }
 }
 
-async function sendMessage(content: string) {
+// async function sendMessage(content: string) {
+//   if (!selectedUser.value || !userStore.currentUsername) return;
+
+//   const newMessage: Message = {
+//     content,
+//     sender: userStore.currentUsername,
+//   };
+
+//   try {
+//     const response = await fetchy(`/api/messages/${selectedUser.value.username}`, "POST", {
+//       body: { content },
+//     });
+//     currentMessages.value.push(response.message || newMessage);
+//   } catch (error) {
+//     console.error("Error sending message:", error);
+//     currentMessages.value.push(newMessage);
+//   }
+// }
+
+function sendMessage(content: string) {
   if (!selectedUser.value || !userStore.currentUsername) return;
 
   const newMessage: Message = {
@@ -91,16 +113,28 @@ async function sendMessage(content: string) {
     sender: userStore.currentUsername,
   };
 
-  try {
-    const response = await fetchy(`/api/messages/${selectedUser.value.username}`, "POST", {
-      body: { content },
-    });
-    currentMessages.value.push(response.message || newMessage);
-  } catch (error) {
-    console.error("Error sending message:", error);
-    currentMessages.value.push(newMessage);
-  }
+  // Emit the message to the server using Socket.IO
+  socket.emit("send-message", { recipient: selectedUser.value.username, content });
+
+  // Optimistically add the message to the UI
+  currentMessages.value.push(newMessage);
 }
+
+// Listen for messages received from the server via Socket.IO
+socket.on("receive-message", (msg: Message) => {
+  // Only add the message if it was sent to the currently selected chat
+  if (selectedUser.value?.username === msg.sender) {
+    currentMessages.value.push(msg);
+  }
+});
+
+onBeforeUnmount(() => {
+  socket.disconnect();
+});
+
+onMounted(() => {
+  socket.connect();
+});
 </script>
 
 <template>

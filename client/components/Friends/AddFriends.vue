@@ -61,8 +61,8 @@ onMounted(async () => {
           <p>{{ user.username }}</p>
         </div>
         <div class="user-actions">
-          <button v-if="requestedUsers.has(user.username)" @click="cancelFriendRequest(user.username)">Cancel Request</button>
-          <button v-else @click="addFriend(user.username)">Add Friend</button>
+          <button v-if="requestedUsers.has(user.username)" @click="cancelFriendRequest(user.username)" class="cancel-request-btn">Cancel Request</button>
+          <button v-else @click="addFriend(user.username)" class="add-friend-btn">Add Friend</button>
         </div>
       </li>
     </ul>
@@ -107,8 +107,15 @@ h1 {
   flex-grow: 1;
 }
 
-.user-actions button {
+.cancel-request-btn {
+  background-color: #f7a49e;
+}
+
+.add-friend-btn {
   background-color: #9fbfad;
+}
+
+.user-actions button {
   border: none;
   padding: 0.5rem;
   cursor: pointer;
