@@ -59,7 +59,7 @@ onMounted(async () => {
   <div class="friend-requests-container">
     <h1>Friend Requests</h1>
 
-    <ul class="requests-list">
+    <ul v-if="requests.length > 0" class="requests-list">
       <li v-for="request in requests" :key="request.id" class="request-item">
         <div class="request-avatar">
           <img src="@/assets/images/profile.png" alt="Avatar" />
@@ -73,6 +73,7 @@ onMounted(async () => {
         </div>
       </li>
     </ul>
+    <p v-else class="no-requests-message">No pending friend requests</p>
   </div>
 </template>
 
@@ -131,5 +132,10 @@ h1 {
   padding: 0.5rem;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.no-requests-message {
+  font-size: 1.2rem;
+  color: #888;
 }
 </style>
